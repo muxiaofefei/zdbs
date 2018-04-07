@@ -92,14 +92,23 @@
         if(nhour==0 && nminute<0){nminute = nminute + 60;nhour=23};//闹钟时间小于当前时间
         if(nhour==0 && nminute==0){nhour=24};//闹钟时间等于当前时间
         var countdown =(nhour * 3600 + nminute * 60 - secs) * 1000;
-        // console.log(countdown);
         if(countdown>0){
         	setTimeout(nclock, countdown);
         	countdown=countdown/1000;
 			setInterval(function(){
 				countdown--;
+                // var iD = Math.floor(Math.floor(countdown/86400));     // 天（86400 = 24*3600）
+                var iH = Math.floor(countdown%86400/3600);   // 时
+                var iM = Math.floor((countdown%3600)/60);    // 分
+                var iS = countdown%60;     // 秒
 				if(countdown>=0){
-					document.getElementById('countdown').innerHTML = countdown;
+                    if(iH>0 && iM>0 && iS>0){
+					   document.getElementById('countdown').innerHTML = iH+'时'+iM+'分'+iS;
+                    }else if(iM>0){
+                       document.getElementById('countdown').innerHTML = iM+'分'+iS;
+                    }else{
+                        document.getElementById('countdown').innerHTML =iS;
+                    }
 				}else{
 					document.getElementById('xs').innerHTML = "闹铃结束";
 				}
